@@ -1,0 +1,19 @@
+{
+  "name": "casper-scraper",
+  "version": "0.0.1",
+  "description": "A way to scrap data as in the same form as it would be in the browser.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "basic": "./node_modules/.bin/casperjs barbonesFunctionality.js",
+    "pic": "./node_modules/.bin/casperjs screenShots.js",
+    "start": "./node_modules/.bin/casperjs main.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+
+    "casperjs": "^1.1.1",
+    "phantomjs-prebuilt": "^2.1.7"
+  }
+}
