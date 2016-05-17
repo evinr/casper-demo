@@ -1,10 +1,15 @@
-var casper = require('casper').create();
-//filling out the form and then verifying
-casper.start('https://www.google.com/search?q=a&tbm=isch', function () {
-	this.fill('form',{q:'b'}, true); // where the objects keys map to the name value on the input
-})
+var casper = require('./casper_base');
+var utils = require('utils');
 
-casper.wait(1000, function() { //introducing a delay for the page to return
-	this.capture('./output/a-b.png');
-})
+casper.on('resource.received', function (resource) {
+	// utils.dump(resource);
+	// utils.dump(resource.url);
+	// Only print out the bad network requests
+	if (resource.stage === 'end' && resource.status > 400) {
+		utils.dump(resource.url);
+	}
+});
+
+casper.start('https://www.google.com');
+
 casper.run();
