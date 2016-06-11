@@ -1,15 +1,23 @@
-var casper = require('./casper_base');
-var utils = require('utils');
+var casper = require('casper').create();
+var url;
 
-casper.on('resource.received', function (resource) {
-	// utils.dump(resource);
-	// utils.dump(resource.url);
-	// Only print out the bad network requests
-	if (resource.stage === 'end' && resource.status > 400) {
-		utils.dump(resource.url);
-	}
+//filling out the form and then verifying
+casper.start('https://www.tineye.com/', function () {
+	this.fill('form#url_form',{url:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQK4MsLLuoeWBccSC8qwDqSyAHHfa_HDXo2_lLIE4NstIxbYodG2MyxHGWA'}, false); 
+	this.click('input#url_submit');
+})
+
+casper.then(function() {
+    url = this.getCurrentUrl() + '?sort=size&order=desc';
 });
 
-casper.start('https://www.google.com');
+casper.then(function() {
+    casper.page = casper.newPage();
+    casper.open(url).then( function() {
+        require('utils').dump(this.getElementsInfo('div.match p a')[0].attributes.href);
+    });
+});
+
+//
 
 casper.run();
